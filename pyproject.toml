@@ -2,7 +2,7 @@
 name = "pytest-benchmarks-example"
 version = "0.1.0"
 description = ""
-authors = ["Alexandre Candeias <alexandre.candeias@farfetch.com>"]
+authors = ["Alexandre Candeias"]
 readme = "README.md"
 packages = [{include = "pytest_benchmarks_example"}]
 
