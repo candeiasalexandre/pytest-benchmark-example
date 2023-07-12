@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from pytest_benchmarks_example.model import (
     EmbeddingConfig,
     NamedTensor,
@@ -48,16 +48,35 @@ def numerical_data_info() -> List[str]:
     return ["feature_e", "feature_f"]
 
 
-def create_dummy_model(
+def setup_model_and_data(
     categorical_data_info: List[EmbeddingConfig],
     numerical_data_info: List[str],
-    hidden_layers: List[int],
-) -> SimpleRegressionModel:
-    return SimpleRegressionModel(
+    n_hidden_layers: int,
+    batch_size: int,
+) -> Tuple[SimpleRegressionModel, SimpleRegressionModelData]:
+    data = generate_data(categorical_data_info, numerical_data_info, batch_size)
+
+    hidden_layers = [2**n for n in range(1, n_hidden_layers)]
+    hidden_layers.reverse()
+    dummy_model = SimpleRegressionModel(
         embeddings=categorical_data_info,
         hidden_layers=hidden_layers,
         numerical_cols=numerical_data_info,
     )
+
+    return dummy_model, data
+
+
+def test_benchmark_model_batch_1(
+    benchmark,
+    categorical_data_info: List[EmbeddingConfig],
+    numerical_data_info: List[str],
+) -> None:
+    model, data = setup_model_and_data(categorical_data_info, numerical_data_info, 4, 1)
+
+    model.eval()
+    with torch.no_grad():
+        benchmark(model.forward, data)
 
 
 @pytest.mark.parametrize(
@@ -76,15 +95,10 @@ def test_benchmark_model(
     numerical_data_info: List[str],
 ) -> None:
 
-    n_rows = batch_size
-    data = generate_data(categorical_data_info, numerical_data_info, n_rows)
-
-    hidden_layers = [2**n for n in range(1, n_hidden_layers)]
-    hidden_layers.reverse()
-    dummy_model = create_dummy_model(
-        categorical_data_info, numerical_data_info, hidden_layers
+    model, data = setup_model_and_data(
+        categorical_data_info, numerical_data_info, n_hidden_layers, batch_size
     )
 
-    dummy_model.eval()
+    model.eval()
     with torch.no_grad():
-        benchmark(dummy_model.forward, data)
+        benchmark(model.forward, data)
