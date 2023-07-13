@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "pytest-benchmarks-example"
+name = "pytest-benchmark-example"
 version = "0.1.0"
 description = ""
 authors = ["Alexandre Candeias"]
 readme = "README.md"
-packages = [{include = "pytest_benchmarks_example"}]
+packages = [{include = "pytest_benchmark_example"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"

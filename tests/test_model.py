@@ -1,5 +1,5 @@
 from typing import Dict, List, Tuple
-from pytest_benchmarks_example.model import (
+from pytest_benchmark_example.model import (
     EmbeddingConfig,
     NamedTensor,
     SimpleRegressionModelData,

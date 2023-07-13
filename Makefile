@@ -2,8 +2,8 @@
 clean-env:
 	-rm -rf .venv
 
-.PHONY: setup-dev
-setup-dev: clean
+.PHONY: setup-env
+setup-env:
 	poetry config virtualenvs.in-project true 
 	poetry install
 
