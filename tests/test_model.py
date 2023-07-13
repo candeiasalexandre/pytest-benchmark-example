@@ -87,7 +87,7 @@ def test_benchmark_model_batch_1(
     ],
 )
 @pytest.mark.parametrize("batch_size", [1, 8, 16, 32, 64, 128, 256, 512, 1024])
-def test_benchmark_model(
+def test_benchmark_model_parametrized(
     benchmark,
     batch_size: int,
     n_hidden_layers: int,

@@ -9,7 +9,7 @@ packages = [{include = "pytest_benchmarks_example"}]
 [tool.poetry.dependencies]
 python = "^3.8"
 pytest = "^7.4.0"
-pytest-benchmark = "^4.0.0"
+pytest-benchmark = {extras = ["histogram"], version = "^4.0.0"}
 torch = "^2.0.1"
 numpy = "1.24"
 
